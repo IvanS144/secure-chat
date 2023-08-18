@@ -1,11 +1,11 @@
 <div class="container-md">
-  <form [formGroup]="searchForm">
+  <form class="forma-kontejner" [formGroup]="searchForm">
     <label form="userName" class="form-label">Search by user name</label>
     <input type="text" class="form-control" id="userName" formControlName="userName"/>
   </form>
   <ul>
     <ng-container *ngFor="let user of users | searchFilter: searchForm.value.userName">
-      <li><a routerLink="/users/{{user.userId}}">{{user.userName}}</a></li>
+      <li><a routerLink="/chat/{{user.userId}}">{{user.userName}}</a></li>
     </ng-container>
   </ul>
 </div>

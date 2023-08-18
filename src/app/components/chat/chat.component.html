@@ -1,9 +1,11 @@
-<div class="container-md">
+<div class="container" *ngIf="user && contact">
+  <h1>Chat with {{contact.userName}}</h1>
   <!-- chat box start -->
   <div class="messages-container">
+    <div class="container">
     <ng-container *ngFor="let message of messages">
-      <div class="row my-2" [ngClass]="message.senderId == contact? 'justify-content-start': 'justify-content-end'">
-        <div class="col-auto rounded-3 p-2" style="min-width: 284px !important;" [ngClass]="message.senderId != 1? 'bg-info': 'bg-info-sublte'">
+      <div class="row my-2" [ngClass]="message.senderId == contactId? 'justify-content-start': 'justify-content-end'">
+        <div class="col-auto rounded-3 p-2" style="min-width: 284px !important;" [ngClass]="message.senderId == contactId ? 'bg-info': 'bg-info-sublte'">
           <!-- <div class="mb-2"> -->
             <!-- <img *ngIf="question.user.avatar; else placeholderAvatar"
               src="http://localhost:9000/files/avatars/{{question.user.avatar.avatarId}}" class="avatar-chat rounded-3">
@@ -16,13 +18,16 @@
         </div>
       </div>
     </ng-container>
+    </div>
   </div>
   <!-- chat box end -->
   <!-- new message form -->
-  <div class="forma-kontejner" [formGroup]="messageForm">
-    <textarea rows="5" formControlName="content"></textarea>
-    <button class="btn btn-primary" (click)="sendMessage()">Send</button>
+  <div class="chat-forma-kontejner" [formGroup]="messageForm">
+    <textarea class="form-control" rows="5" formControlName="content"></textarea>
+    <div class="mt-2">
+    <button class="btn btn-primary me-1" (click)="sendMessage()">Send</button>
     <button class="btn btn-secondary" (click)="resetForm()">Clear</button>
+    </div>
   </div>
   <!-- new message form end -->
 </div>

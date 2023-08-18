@@ -14,4 +14,8 @@ export class UsersService {
   getOnlineUsers(): Observable<UserDTO[]>{
     return this.http.get<UserDTO[]>(`${baseUrl}/users`, {"withCredentials": true})
   }
+
+  getById(userId: number): Observable<UserDTO>{
+    return this.http.get<UserDTO>(`${baseUrl}/users/${userId}`, {"withCredentials": true})
+  }
 }

@@ -34,4 +34,19 @@ export class WelcomeComponent {
     })
   }
 
+  register(){
+    this.loginService.register(this.form.value)
+    .subscribe({
+      next: (user: UserDTO) => {
+        localStorage.setItem("user", JSON.stringify(user))
+        this.router.navigate(['dashboard'])
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err)
+        this.snackBar.open("Registration failed", "OK", { "duration": 5000})
+      }
+    })
+
+  }
+
 }

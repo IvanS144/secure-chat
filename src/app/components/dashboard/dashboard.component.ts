@@ -26,7 +26,11 @@ export class DashboardComponent {
     this.usersService.getOnlineUsers()
     .subscribe({
       next: (users: UserDTO[]) => this.users = users,
-      error: (err: HttpErrorResponse) => console.log(err)
+      error: (err: HttpErrorResponse) => {
+        console.log(err)
+        if(err.status==401 || err.status==403)
+        this.router.navigate([''])
+      }
     })
   }
 

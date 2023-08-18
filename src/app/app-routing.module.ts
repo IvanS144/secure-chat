@@ -14,7 +14,7 @@ const routes: Routes = [
     component: DashboardComponent
   },
   {
-    path: 'users/:id',
+    path: 'chat/:id',
     component: ChatComponent
   }
 ];
