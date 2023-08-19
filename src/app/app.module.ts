@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { AbstractControl, FormsModule,ReactiveFormsModule, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 import {MatExpansionModule} from '@angular/material/expansion';
@@ -37,6 +37,7 @@ import { SearchFilterPipe } from './pipes/search-filter.pipe';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    HttpClientXsrfModule,
 
     MatExpansionModule,
     MatSnackBarModule,

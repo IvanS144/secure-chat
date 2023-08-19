@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginRequest } from '../model/login-request';
 import { UserDTO } from '../model/user-dto';
@@ -14,10 +14,10 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   login(loginRequest: LoginRequest): Observable<UserDTO>{
-    return this.http.post<UserDTO>(`${baseUrl}/auth/login`, loginRequest)
+    return this.http.post<UserDTO>(`${baseUrl}/auth/login`, loginRequest, {"withCredentials": true})
   }
 
   register(userRequest: UserRequest): Observable<UserDTO>{
-    return this.http.post<UserDTO>(`${baseUrl}/register`, userRequest)
+    return this.http.post<UserDTO>(`${baseUrl}/register`, userRequest, {"withCredentials": true})
   }
 }
