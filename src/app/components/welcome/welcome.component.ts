@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { notEmptyNotBlankRegex } from 'src/app/app.module';
 import { UserDTO } from 'src/app/model/user-dto';
-import { LoginService } from 'src/app/services/login.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-welcome',
@@ -13,15 +13,23 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent {
-  constructor(private loginService: LoginService, private formBuilder: FormBuilder, private router: Router, private snackBar: MatSnackBar){}
+  constructor(private authService: AuthService, private formBuilder: FormBuilder, private router: Router, private snackBar: MatSnackBar){}
 
   form: FormGroup = this.formBuilder.group({
-    "userName": [null, [Validators.required]],
-    "password": [null, [Validators.required]]
+    "userName": [null, [Validators.required, Validators.pattern(notEmptyNotBlankRegex)]],
+    "password": [null, [Validators.required, Validators.pattern(notEmptyNotBlankRegex)]]
   })
 
+  get userName(){
+    return this.form.get('userName')
+  }
+
+  get password(){
+    return this.form.get('password')
+  }
+
   login(){
-    this.loginService.login(this.form.value)
+    this.authService.login(this.form.value)
     .subscribe({
       next: (user: UserDTO) => {
         localStorage.setItem("user", JSON.stringify(user))
@@ -35,7 +43,12 @@ export class WelcomeComponent {
   }
 
   register(){
-    this.loginService.register(this.form.value)
+    let password: string = this.form.get('password')?.value
+    if(password.length<16){
+      this.snackBar.open("Password must contain 16 characters", "OK", { "duration": 5000})
+      return
+    }
+    this.authService.register(this.form.value)
     .subscribe({
       next: (user: UserDTO) => {
         localStorage.setItem("user", JSON.stringify(user))

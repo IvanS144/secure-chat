@@ -17,15 +17,22 @@ export class DashboardComponent {
   searchForm: FormGroup = this.formBuilder.group({
     "userName": ['']
   })
+  private user: UserDTO | null = null
 
   ngOnInit(){
+    let json = localStorage.getItem("user")
+    if(json!=null){
+      this.user = JSON.parse(json)
+    }
     this.getUsers()
   }
 
   getUsers(){
     this.usersService.getOnlineUsers()
     .subscribe({
-      next: (users: UserDTO[]) => this.users = users,
+      next: (users: UserDTO[]) =>{
+        this.users = users.filter((u: UserDTO) => u.userId!=this.user?.userId)
+      },
       error: (err: HttpErrorResponse) => {
         console.log(err)
         if(err.status==401 || err.status==403)

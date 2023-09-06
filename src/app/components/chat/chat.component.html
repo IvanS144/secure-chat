@@ -24,8 +24,16 @@
   <!-- new message form -->
   <div class="chat-forma-kontejner" [formGroup]="messageForm">
     <textarea class="form-control" rows="5" formControlName="content"></textarea>
+    <div *ngIf="content?.invalid && (content?.dirty || content?.touched)" class="alert alert-danger">
+      <div *ngIf="content?.errors?.['required']">
+        Message is required
+      </div>
+      <div *ngIf="content?.errors?.['pattern']">
+        Message must not be blank or only whitespaces
+      </div>
+    </div>
     <div class="mt-2">
-    <button class="btn btn-primary me-1" (click)="sendMessage()">Send</button>
+    <button class="btn btn-primary me-1" (click)="sendMessage()" [disabled]="messageForm.invalid">Send</button>
     <button class="btn btn-secondary" (click)="resetForm()">Clear</button>
     </div>
   </div>

@@ -1,8 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { notEmptyNotBlankRegex } from 'src/app/app.module';
 import { MessageDTO } from 'src/app/model/message-dto';
 import { UserDTO } from 'src/app/model/user-dto';
 import { MessagesService } from 'src/app/services/messages.service';
@@ -20,11 +21,16 @@ export class ChatComponent {
   messageForm: FormGroup = this.formBuilder.group({
     "senderId": null,
     "recipientId": null,
-    "content": ['']
+    "content": ['', [Validators.required, Validators.pattern(notEmptyNotBlankRegex)]]
   })
   contactId: number = 0
   user: UserDTO | null = null
   contact: UserDTO | null = null
+  private intervalID : number | null = null
+
+  get content(){
+    return this.messageForm.get('content')
+  }
 
   ngOnInit(){
     let userJSON = localStorage.getItem("user")
@@ -45,12 +51,15 @@ export class ChatComponent {
         this.messages = JSON.parse(messagesJSON)
       }
       this.getMessages()
+      this.intervalID = window.setInterval(() => this.getMessages(), 2000);
     })
   }
   }
 
   ngOnDestroy(){
     this.routeSubscription?.unsubscribe()
+    if(this.intervalID)
+    window.clearInterval(this.intervalID)
     if(this.contactId>0)
     localStorage.setItem(`chat-${this.user?.userId}-${this.contactId}`, JSON.stringify(this.messages))
   }
