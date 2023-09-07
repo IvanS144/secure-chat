@@ -28,6 +28,11 @@ export class WelcomeComponent {
     return this.form.get('password')
   }
 
+  ngOnInit(){
+    if(localStorage.getItem("user")!=null)
+      this.router.navigate(['dashboard'])
+  }
+
   login(){
     this.authService.login(this.form.value)
     .subscribe({
@@ -45,7 +50,7 @@ export class WelcomeComponent {
   register(){
     let password: string = this.form.get('password')?.value
     if(password.length<16){
-      this.snackBar.open("Password must contain 16 characters", "OK", { "duration": 5000})
+      this.snackBar.open("Password must contain at least 16 characters", "OK", { "duration": 5000})
       return
     }
     this.authService.register(this.form.value)
