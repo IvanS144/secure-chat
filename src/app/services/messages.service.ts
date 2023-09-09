@@ -16,7 +16,7 @@ export class MessagesService {
   }
 
   getMessagesBySenderIdAndRecipientId(senderId: number, recipientId:number): Observable<MessageDTO[]>{
-    return this.http.get<MessageDTO[]>(`${baseUrl}/messages/${recipientId}?senderId=${senderId}`, {"withCredentials": true})
+    return this.http.get<MessageDTO[]>(`${baseUrl}/messages/${recipientId}/sender/${senderId}/unread`, {"withCredentials": true})
   }
 
   sendMessage(message: MessageDTO): Observable<any>{
