@@ -51,5 +51,5 @@ import { SearchFilterPipe } from './pipes/search-filter.pipe';
 })
 export class AppModule { }
 
-export const baseUrl: string = "https://localhost:8443"
+export const baseUrl: string = ""
 export const notEmptyNotBlankRegex= /^(.|\s)*\S(.|\s)*$/;
