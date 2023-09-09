@@ -28,11 +28,6 @@ export class WelcomeComponent {
     return this.form.get('password')
   }
 
-  ngOnInit(){
-    if(localStorage.getItem("user")!=null)
-      this.router.navigate(['dashboard'])
-  }
-
   login(){
     this.authService.login(this.form.value)
     .subscribe({
